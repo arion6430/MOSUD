@@ -89,10 +89,12 @@ WITH a AS (
     JOIN olist.customers c ON c.customer_id = o.customer_id
     WHERE c.customer_state = 'DF' AND o.order_status = 'delivered'
 )
-SELECT product_id FROM a
-INTERSECT
-SELECT product_id FROM b
-ORDER BY product_id;
+SELECT count(*) as a_intersect_b FROM(
+	SELECT product_id FROM a
+	INTERSECT
+	SELECT product_id FROM b
+	ORDER BY product_id
+);
 
 -- 4a. A − B через EXCEPT (товары только штата GO)
 WITH a AS (
